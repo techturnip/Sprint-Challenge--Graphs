@@ -1,8 +1,3 @@
-"""
-Simple graph implementation
-"""
-
-
 class Queue():
     def __init__(self):
         self.queue = []
@@ -35,6 +30,24 @@ class Stack():
 
     def size(self):
         return len(self.stack)
+
+
+def get_opposite_direction(dir):
+    opposite = None
+
+    if not dir:
+        return
+
+    if dir == 'n':
+        opposite = 's'
+    elif dir == 'e':
+        opposite = 'w'
+    elif dir == 's':
+        opposite == 'n'
+    elif dir == 'w':
+        opposite == 'e'
+
+    return opposite
 
 
 class Graph:
@@ -210,71 +223,58 @@ class Graph:
         """
         pass  # TODO
 
+# SOCIAL GRAPH
+# class Graph:
+#     def __init__(self):
+#         self.rooms = {}
+#         self.adjacency = {}
 
-if __name__ == '__main__':
-    graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
-    graph.add_vertex(1)
-    graph.add_vertex(2)
-    graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    graph.add_edge(5, 3)
-    graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
-    graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
-    graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
+#     def update_points(self, prev_room, current_room, dir_travelled):
+#         """
+#         Creates a bi-directional relationship
+#         """
+#         opposite_dir = get_opposite_direction(dir_travelled)
 
-    '''
-    Should print:
-        {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
-    '''
-    print(graph.vertices)
+#         self.rooms[prev_room][dir_travelled] = current_room
+#         self.rooms[current_room][opposite_dir] = prev_room
 
-    '''
-    Valid BFT paths:
-        1, 2, 3, 4, 5, 6, 7
-        1, 2, 3, 4, 5, 7, 6
-        1, 2, 3, 4, 6, 7, 5
-        1, 2, 3, 4, 6, 5, 7
-        1, 2, 3, 4, 7, 6, 5
-        1, 2, 3, 4, 7, 5, 6
-        1, 2, 4, 3, 5, 6, 7
-        1, 2, 4, 3, 5, 7, 6
-        1, 2, 4, 3, 6, 7, 5
-        1, 2, 4, 3, 6, 5, 7
-        1, 2, 4, 3, 7, 6, 5
-        1, 2, 4, 3, 7, 5, 6
-    '''
-    graph.bft(1)
+#     def add_room(self, id, pointers):
+#         """
+#         Add a new room with a room id and pointers
+#         """
+#         # automatically increment the ID to assign the new user
+#         self.rooms[id] = pointers
 
-    '''
-    Valid DFT paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    '''
-    graph.dft(1)
-    graph.dft_recursive(1)
+#     def get_all_paths(self, room_id):
+#         """
+#         Takes a room's room_id as an argument
 
-    '''
-    Valid BFS path:
-        [1, 2, 4, 6]
-    '''
-    print(graph.bfs(1, 6))
+#         Returns a dictionary containing every user in that user's
+#         extended network with the shortest friendship path between them.
 
-    '''
-    Valid DFS paths:
-        [1, 2, 4, 6]
-        [1, 2, 4, 7, 6]
-    '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+#         The key is the friend's ID and the value is the path.
+#         """
+#         rooms_to_visit = Queue()
+#         visited = {}  # Note that this is a dictionary, not a set
+#         rooms_to_visit.enqueue([room_id])
+
+#         while rooms_to_visit.size() > 0:
+#             # dequeue the first path
+#             current_path = rooms_to_visit.dequeue()
+#             # grab the last vertex
+#             current_vertex = current_path[-1]
+#             # if it has not been visited
+#             if current_vertex not in visited:
+#                 # when we reach the unvisited vertex
+#                 # add to visited dict
+#                 # also, add the whole path that led us there
+#                 visited[current_vertex] = current_path
+#                 # get all neighbors and add the path + the neighbor
+#                 # to the queue
+#                 for neighbor in self.adjacency[current_vertex]:
+#                     path_copy = current_path.copy()
+#                     path_copy.append(neighbor)
+#                     rooms_to_visit.enqueue(path_copy)
+
+#         # !!!! IMPLEMENT ME
+#         return visited
